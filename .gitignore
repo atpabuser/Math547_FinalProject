@@ -1,0 +1,14 @@
+# Python virtual environment
+sindy_py_547/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# LaTeX build artifacts
+sindy_writeup.aux
+sindy_writeup.log
+sindy_writeup.out
+sindy_writeup.toc
