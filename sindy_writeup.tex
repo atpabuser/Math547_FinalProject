@@ -266,9 +266,8 @@ $$\mathbf{B}_{\mathrm{sensor}} = U_r \hat{e_1}$$
 which is the first column of the MTDMD basis.
 
 Figure~\ref{fig:Bsensor} shows that
-$B_{\mathrm{sensor}}$ has large, roughly equal weights on features
-$\{11, 14, 17, 20, 32, 35, 38\}$ (weights $\approx 0.19$--$0.34$) and is
-approximately zero elsewhere, meaning effective control of the full latent state
+$B_{\mathrm{sensor}}$ has large, roughly equal weights on features $\{14, 17, 20, 32, 35, 38\}$
+where $\left| \mathbf{B}_{{\mathrm{sensor}}, j} \right| > 0.3$, meaning effective control of the full latent state
 requires coordinated actuation of fewer than 10 joint-angle channels.
 
 \begin{figure}[h]
@@ -281,23 +280,11 @@ represents the weight of that feature in the optimal actuator direction.}
 \label{fig:Bsensor}
 \end{figure}
 
-\paragraph{What it tells us.}
-The actuator is sparse in sensor space: only about 8 features (joint-angle
-channels) carry significant weight ($|w| > 0.1$), while the remaining
-$\approx 106$ features are near zero.  The dominant features --- indices
-$\{14, 17, 20, 32, 35, 38\}$ with absolute weights $> 0.3$ ---
-correspond to joints that differ most systematically between jumping, running,
-and walking (e.g.\ hip, knee, and ankle joints in the frontal and sagittal
-planes).  Physically, $B_{\mathrm{sensor}}$ is the actuator pattern that most
-efficiently shifts the latent state: applying a unit force along
-$B_{\mathrm{sensor}}$ maximally excites the first MTDMD mode, which encodes the
-inter-class posture difference.
-
 % ===========================================================================
 \section{Figure Descriptions}
 % ===========================================================================
 
-The result $m^* = 1$ means that --- within the 3-dimensional MTDMD latent space
+The result $m^* = 1$ means that --- within the high-variance 3-dimensional MTDMD latent space
 --- a \emph{single scalar control signal} $u(t) \in \mathbb{R}$ suffices to
 transition the human body between any two latent states (e.g.\ from a walking
 configuration to a running configuration), provided the system is driven by the
@@ -310,6 +297,17 @@ separated by distances on the order of $\|z_{\mathrm{run}} - z_{\mathrm{walk}}\|
 units, a finite-time minimum-energy control can be computed by solving a
 discrete-time LQR problem in the 3D latent space.
 
+Interestingly, as seen in the reconstructed dynamics \ref{fig:Anim}, the six most import joints for controlling the skeleton are in the left and right feet.
+This makes sense due to the nature of the MoCap data (jumping, running, and walking) and also due to the importance that locomotion plays in any physical activity.
+Based on this result, it would make sense to design prosthetic and robotic devices with accurate sensors and/or higher-grade materials on the ground.
+
+\begin{figure}[h]
+\href{https://drive.google.com/thumbnail?id=1ESKlgH6MNtSbhGgt5UyO9lNjawHL5K5d}{Jumping Animation}
+\href{https://drive.google.com/thumbnail?id=1FRXX2kvWJb28fLygXfbEJlHu9ECNHtR5}{Running Animation}
+\href{https://drive.google.com/thumbnail?id=1CNyfbGiXWbcsFATVoEdQSxe0VLmmJ5LM}{Walking Animation}
+\caption{Reconstructed motion data with minimum actuators highlighted}
+\label{fig:Anim}
+\end{figure}
 % % ===========================================================================
 % \section{Summary Table}
 % % ===========================================================================

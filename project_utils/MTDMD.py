@@ -78,8 +78,8 @@ def mtdmd(experiment_timeseries, variance_threshold = 0.95):
     # Step 1: Build snapshot pairs for every trajectory
     # ------------------------------------------------------------------
     Xs, Xps = [], []
-    for mu in range(N_expr):
-        X_mu, Xp_mu = _build_trajectory_pair(experiment_timeseries[mu])
+    for nu in range(N_expr):
+        X_mu, Xp_mu = _build_trajectory_pair(experiment_timeseries[nu])
         Xs.append(X_mu)    # (n_vars, m)  where m = n_ts-1
         Xps.append(Xp_mu)  # (n_vars, m)
 
@@ -145,8 +145,8 @@ def mtdmd(experiment_timeseries, variance_threshold = 0.95):
     reconstructions  = np.zeros((N_expr, n_ts, n_vars))
     mode_amplitudes  = []   # list of (r, n_ts) arrays
 
-    for mu in range(N_expr):
-        data_mu = experiment_timeseries[mu]   # (n_ts, n_vars)
+    for nu in range(N_expr):
+        data_mu = experiment_timeseries[nu]   # (n_ts, n_vars)
 
         # Project initial condition onto reduced basis
         b0 = np.linalg.lstsq(modes, data_mu[0], rcond=None)[0]  # (r,)
@@ -166,7 +166,7 @@ def mtdmd(experiment_timeseries, variance_threshold = 0.95):
         # = Ur @ W @ amplitudes[:, t]  but modes = Ur @ W already
         x_reconstructed = (modes @ amplitudes).T.real   # (n_ts, n_vars)
 
-        reconstructions[mu] = x_reconstructed
+        reconstructions[nu] = x_reconstructed
         mode_amplitudes.append(amplitudes)
 
     mean_reconstruction = reconstructions.mean(axis=0)   # (n_ts, n_vars)

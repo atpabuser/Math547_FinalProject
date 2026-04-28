@@ -15,7 +15,7 @@ J = np.array(
 	 33, 34, 35, 36, 37, 38])-1
 
 
-def plot_action(vec, file_name):
+def plot_action(vec, file_name, nodes_to_highlight=[]):
 	xyz = vec.reshape(38, 3, -1)
 	xroot, yroot, zroot = xyz[0, 0, 0], xyz[0, 1, 0], xyz[0, 2, 0]
 
@@ -28,9 +28,14 @@ def plot_action(vec, file_name):
 			zline = np.array([xyz[I[ijind], 2, time_idx], xyz[J[ijind], 2, time_idx]])
 			# use plot if you'd like to plot skeleton with lines
 			ax.plot(xline, yline, zline, c='k', marker='o')
+			if len(nodes_to_highlight) > 0:
+				ax.scatter(
+					xyz[nodes_to_highlight, 0, time_idx], xyz[nodes_to_highlight, 1, time_idx], xyz[nodes_to_highlight, 2, time_idx],
+					c='yellow', s=50, alpha=0.5
+				)
 
 		# use scatter if you'd like to plot all points without lines
-		# ax.scatter(xyz[:,0,tind],xyz[:,1,tind],xyz[:,2,tind], c = 'r', s = 50)
+		# ax.scatter(xyz[:,0,time_idx],xyz[:,1,time_idx],xyz[:,2,time_idx], c = 'r', s = 50)
 
 		ax.set_xlim((-R+xroot, R+xroot))
 		ax.set_ylim((-R+yroot, R+yroot))
